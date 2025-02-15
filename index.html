@@ -1,0 +1,313 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Découvrez le portfolio artistique de Sino : calligraphie, tatouages, bande dessinée et bien plus encore."
+    />
+    <title>Portfolio de Sino</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome pour les icônes -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- AOS CSS pour les animations -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav id="navbar" role="navigation">
+        <div class="container">
+          <div class="logo">
+            <a href="#hero" class="logo-link" aria-label="Accueil"></a>
+          </div>
+          <!-- Bouton hamburger remplaçant la div par un bouton accessible -->
+          <button class="hamburger" aria-label="Menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul>
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#portfolio-calligraphy">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO SECTION -->
+      <section id="hero" data-aos="fade-in">
+        <!-- Particles.js pour le ciel étoilé -->
+        <div id="particles-js"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-shapes">
+          <div class="shape shape1"></div>
+          <div class="shape shape2"></div>
+          <div class="shape shape3"></div>
+        </div>
+        <div class="hero-content">
+          <h1 class="typewriter">Bienvenue sur mon portfolio</h1>
+          <p>Découvrez mes créations artistiques faites à la main</p>
+          <a href="#portfolio-calligraphy" class="btn">Voir mes œuvres</a>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section id="about" data-aos="fade-right">
+        <div class="container">
+          <h2>À propos</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            interdum quam ac libero cursus, nec consequat metus scelerisque.
+            Suspendisse potenti. Mauris a convallis mi. Vivamus non semper erat,
+            a suscipit arcu.
+          </p>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO SECTIONS -->
+      <!-- Calligraphie -->
+      <section
+        id="portfolio-calligraphy"
+        class="portfolio-section"
+        data-aos="zoom-in"
+      >
+        <div class="container">
+          <h2>Calligraphie</h2>
+          <div class="thumbnails">
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/calligraphie/calligraphie-1.webp"
+                alt="Calligraphie 1"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/calligraphie/calligraphie-2.webp"
+                alt="Calligraphie 2"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tatouages -->
+      <section
+        id="portfolio-tatouages"
+        class="portfolio-section"
+        data-aos="zoom-in"
+      >
+        <div class="container">
+          <h2>Tatouages</h2>
+          <div class="thumbnails">
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/tatouages/tatouages-1.webp"
+                alt="Tatouage 1"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/tatouages/tatouages-2.webp"
+                alt="Tatouage 2"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bande Dessinée -->
+      <section
+        id="portfolio-bande-dessinee"
+        class="portfolio-section"
+        data-aos="zoom-in"
+      >
+        <div class="container">
+          <h2>Bande Dessinée</h2>
+          <div class="thumbnails">
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/bande-dessinee/bande-dessinee-1.webp"
+                alt="Bande dessinée 1"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/bande-dessinee/bande-dessinee-2.webp"
+                alt="Bande dessinée 2"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/bande-dessinee/bande-dessinee-3.webp"
+                alt="Bande dessinée 3"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="thumbnail-container">
+              <div class="spinner"></div>
+              <img
+                src="images/bande-dessinee/bande-dessinee-4.webp"
+                alt="Bande dessinée 4"
+                class="thumbnail"
+                loading="lazy"
+              />
+              <div class="thumbnail-overlay">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section id="contact" data-aos="fade-left">
+        <div class="container">
+          <h2>Contact</h2>
+          <form action="traitement-formulaire.php" method="post">
+            <div class="form-group">
+              <label for="name">Nom :</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email :</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message :</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Envoyer</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- SCROLL-TO-TOP BUTTON -->
+    <a
+      href="#hero"
+      id="scrollTopBtn"
+      title="Retour en haut"
+      aria-label="Retour en haut"
+    ></a>
+
+    <!-- ROUE CRANTÉE -->
+    <div id="gear-wheel">
+      <i class="fa-solid fa-gear"></i>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Sino. Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <!-- POPUP MODAL POUR LE SLIDESHOW -->
+    <div
+      id="popupModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popupTitle"
+    >
+      <div class="popup-content">
+        <!-- Titre caché pour l'accessibilité -->
+        <h2 id="popupTitle" class="visually-hidden">Galerie</h2>
+        <button
+          id="popup-close"
+          class="popup-close"
+          tabindex="0"
+          aria-label="Fermer"
+        >
+          &times;
+        </button>
+        <div class="popup-container">
+          <button
+            id="popup-prev"
+            class="popup-prev"
+            tabindex="0"
+            aria-label="Précédent"
+          >
+            &#10094;
+          </button>
+          <div class="popup-slideshow"></div>
+          <button
+            id="popup-next"
+            class="popup-next"
+            tabindex="0"
+            aria-label="Suivant"
+          >
+            &#10095;
+          </button>
+        </div>
+        <div class="popup-dots"></div>
+      </div>
+    </div>
+
+    <!-- Scripts (chargés en différé) -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"
+    ></script>
+    <script defer src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script defer src="js/scripts.js"></script>
+  </body>
+</html>
