@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fadeObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        // Lorsque moins de 50% de l'élément est visible, on lance le fade-out
         if (
           !entry.isIntersecting &&
           entry.target.classList.contains("aos-animate")
@@ -145,9 +146,12 @@ document.addEventListener("DOMContentLoaded", () => {
               entry.target.removeEventListener("animationend", handler);
             });
           }
-        } else if (entry.isIntersecting) {
+        }
+        // Lorsque l'élément atteint ou dépasse 50% de visibilité, on lance le fade-in
+        else if (entry.isIntersecting) {
           entry.target.classList.remove("aos-animate-out");
           if (!entry.target.classList.contains("aos-animate")) {
+            // Forcer le recalcul du style pour relancer l'animation
             void entry.target.offsetWidth;
             entry.target.classList.add("aos-animate");
           }
@@ -187,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         spinner.style.display = "none";
       }
     });
+    // Si l'image est déjà en cache
     if (img.complete) {
       const spinner = img.parentElement.querySelector(".spinner");
       if (spinner) {
@@ -196,11 +201,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===== GESTION DE LA POPUP & SLIDESHOW ===== */
+  // Lorsqu'on clique sur une miniature, on ouvre le modal
   document
     .querySelectorAll(".thumbnail-container")
     .forEach((thumbContainer) => {
       thumbContainer.addEventListener("click", () => {
-        lastFocusedElement = document.activeElement;
+        lastFocusedElement = document.activeElement; // sauvegarde de l'élément déclencheur
         const thumbnailsContainer = thumbContainer.closest(".thumbnails");
         const images = thumbnailsContainer.querySelectorAll("img.thumbnail");
         const slides = [];
@@ -243,7 +249,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.dataset.totalSlides = slides.length;
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
+
+    // Trappe le focus dans le modal
     trapFocus(modal);
+
+    // Positionne le focus sur le bouton de fermeture pour l'accessibilité
     modal.querySelector("#popup-close").focus();
   }
 
@@ -299,6 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }
   });
+  // Fermeture du modal avec la touche Échap
   document.addEventListener("keydown", (e) => {
     const modal = document.getElementById("popupModal");
     if (e.key === "Escape" && modal.classList.contains("active")) {
@@ -310,12 +321,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("popupModal");
     modal.classList.remove("active");
     document.body.style.overflow = "";
+    // Retirer le focus trap
     releaseFocus(modal);
+    // Restituer le focus à l'élément déclencheur
     if (lastFocusedElement) {
       lastFocusedElement.focus();
     }
   }
 
+  // Fonction pour piéger le focus dans le modal
   function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
       'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
@@ -338,6 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     element.addEventListener("keydown", handleFocus);
+    // Sauvegarde du handler pour pouvoir le retirer plus tard
     element._handleFocus = handleFocus;
   }
 
