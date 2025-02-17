@@ -1,20 +1,13 @@
-// js/scripts.js
-
 document.addEventListener("DOMContentLoaded", () => {
   // Sauvegarde de l'élément déclencheur du modal
   let lastFocusedElement = null;
 
-  // Initialisation de AOS
-  AOS.init({
-    duration: 1500,
-    once: false,
-  });
-
-  // Références aux éléments
+  /* ===== Scroll-to-top : correction ===== */
   const scrollTopBtn = document.getElementById("scrollTopBtn");
-  const navbar = document.getElementById("navbar");
-  const hero = document.getElementById("hero");
-  const gearWheel = document.getElementById("gear-wheel");
+  scrollTopBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
   /* ===== Gestion du Menu Hamburger ===== */
   const hamburger = document.querySelector(".hamburger");
@@ -85,7 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ===== Gestion du scroll ===== */
+  /* ===== Gestion du scroll général ===== */
+  const navbar = document.getElementById("navbar");
+  const hero = document.getElementById("hero");
+  const gearWheel = document.getElementById("gear-wheel");
+
+  // Fonction d'easing (easeOutCubic)
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
   const handleScroll = () => {
     const scrollPos = window.pageYOffset;
 
@@ -99,12 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
       navbar.classList.remove("scrolled");
     }
 
-    // Parallaxe pour le hero
+    // Parallaxe pour le hero (inchangé)
     if (hero) {
       hero.style.backgroundPositionY = `${scrollPos * 0.5}px`;
     }
 
-    // Mise à jour de la teinte pour les sections portfolio
+    // Mise à jour de la teinte pour les sections portfolio (inchangé)
     const portfolioSections = document.querySelectorAll(".portfolio-section");
     const hue = scrollPos * 0.1;
     portfolioSections.forEach((section) => {
@@ -125,44 +127,82 @@ document.addEventListener("DOMContentLoaded", () => {
       gearOpacity = Math.min(Math.max(gearOpacity, 0), 1);
       gearWheel.style.opacity = gearOpacity;
     }
+
+    // --- Mise à jour des animations scroll-driven ---
+    updateScrollAnimations();
   };
 
+  // Système général de keyframes scroll-driven pour les éléments portant data-scroll-anim
+  function updateScrollAnimations() {
+    const animElements = document.querySelectorAll("[data-scroll-anim]");
+    const viewportHeight = window.innerHeight;
+    animElements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      let progress = (viewportHeight - rect.top) / viewportHeight;
+      progress = Math.max(0, Math.min(1, progress));
+      // Appliquer l'easing
+      const easedProgress = easeOutCubic(progress);
+
+      // Récupération du type d'effet désiré
+      const effect = el.getAttribute("data-scroll-effect") || "fadeUp";
+      let transformStyle = "";
+
+      switch (effect) {
+        case "fadeUp": {
+          // Accentuation légère : translation verticale de 50px, rotation de 10° et échelle de 0.93 à 1
+          const translateY = (1 - easedProgress) * 50;
+          const rotate = (1 - easedProgress) * 10;
+          const scale = 0.93 + easedProgress * 0.07;
+          transformStyle = `translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
+          break;
+        }
+        case "slideLeft": {
+          // Translation horizontale de -100px à 0
+          const translateX = (1 - easedProgress) * -100;
+          transformStyle = `translateX(${translateX}px)`;
+          break;
+        }
+        case "zoomIn": {
+          // Passage de l'échelle de 0.8 à 1
+          const scaleZoom = 0.8 + easedProgress * 0.2;
+          transformStyle = `scale(${scaleZoom})`;
+          break;
+        }
+        case "rotateIn": {
+          // Rotation de -15° à 0°
+          const rotateVal = (1 - easedProgress) * -15;
+          transformStyle = `rotate(${rotateVal}deg)`;
+          break;
+        }
+        case "rotateSlide": {
+          // Pour le formulaire de contact, on souhaite terminer l'animation dès 50% du viewport.
+          let customProgress = Math.min(
+            (viewportHeight - rect.top) / (viewportHeight * 0.5),
+            1
+          );
+          customProgress = easeOutCubic(customProgress);
+          const translateX = (1 - customProgress) * 100;
+          const rotateVal = (1 - customProgress) * 15;
+          transformStyle = `translateX(${translateX}px) rotate(${rotateVal}deg)`;
+          break;
+        }
+        default: {
+          const translateY = (1 - easedProgress) * 50;
+          const rotate = (1 - easedProgress) * 10;
+          const scale = 0.93 + easedProgress * 0.07;
+          transformStyle = `translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
+        }
+      }
+
+      el.style.opacity = easedProgress;
+      el.style.transform = transformStyle;
+    });
+  }
+
+  // Lancer la mise à jour au scroll et au chargement
   handleScroll();
   window.addEventListener("scroll", handleScroll);
-
-  /* ===== Observer pour les animations fade-in/out ===== */
-  const fadeObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        // Lorsque moins de 50% de l'élément est visible, on lance le fade-out
-        if (
-          !entry.isIntersecting &&
-          entry.target.classList.contains("aos-animate")
-        ) {
-          if (!entry.target.classList.contains("aos-animate-out")) {
-            entry.target.classList.add("aos-animate-out");
-            entry.target.addEventListener("animationend", function handler() {
-              entry.target.classList.remove("aos-animate", "aos-animate-out");
-              entry.target.removeEventListener("animationend", handler);
-            });
-          }
-        }
-        // Lorsque l'élément atteint ou dépasse 50% de visibilité, on lance le fade-in
-        else if (entry.isIntersecting) {
-          entry.target.classList.remove("aos-animate-out");
-          if (!entry.target.classList.contains("aos-animate")) {
-            // Forcer le recalcul du style pour relancer l'animation
-            void entry.target.offsetWidth;
-            entry.target.classList.add("aos-animate");
-          }
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
-  document.querySelectorAll("[data-aos]").forEach((el) => {
-    fadeObserver.observe(el);
-  });
+  window.addEventListener("resize", handleScroll);
 
   /* ===== Effet ripple sur les boutons ===== */
   const rippleElements = document.querySelectorAll(".btn, #scrollTopBtn");
@@ -186,14 +226,17 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   thumbnailImages.forEach((img) => {
     img.addEventListener("load", () => {
-      const spinner = img.parentElement.querySelector(".spinner");
+      const spinner = img
+        .closest(".thumbnail-container")
+        .querySelector(".spinner");
       if (spinner) {
         spinner.style.display = "none";
       }
     });
-    // Si l'image est déjà en cache
     if (img.complete) {
-      const spinner = img.parentElement.querySelector(".spinner");
+      const spinner = img
+        .closest(".thumbnail-container")
+        .querySelector(".spinner");
       if (spinner) {
         spinner.style.display = "none";
       }
@@ -201,7 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===== GESTION DE LA POPUP & SLIDESHOW ===== */
-  // Lorsqu'on clique sur une miniature, on ouvre le modal
   document
     .querySelectorAll(".thumbnail-container")
     .forEach((thumbContainer) => {
@@ -211,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const images = thumbnailsContainer.querySelectorAll("img.thumbnail");
         const slides = [];
         images.forEach((img) => {
-          slides.push(img.src);
+          slides.push(img.currentSrc.replace("-mini", ""));
         });
         const currentIndex = Array.from(images).indexOf(
           thumbContainer.querySelector("img.thumbnail")
@@ -309,7 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }
   });
-  // Fermeture du modal avec la touche Échap
   document.addEventListener("keydown", (e) => {
     const modal = document.getElementById("popupModal");
     if (e.key === "Escape" && modal.classList.contains("active")) {
@@ -321,15 +362,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("popupModal");
     modal.classList.remove("active");
     document.body.style.overflow = "";
-    // Retirer le focus trap
     releaseFocus(modal);
-    // Restituer le focus à l'élément déclencheur
     if (lastFocusedElement) {
       lastFocusedElement.focus();
     }
   }
 
-  // Fonction pour piéger le focus dans le modal
   function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
       'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
@@ -352,7 +390,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     element.addEventListener("keydown", handleFocus);
-    // Sauvegarde du handler pour pouvoir le retirer plus tard
     element._handleFocus = handleFocus;
   }
 
