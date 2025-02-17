@@ -1,5 +1,3 @@
-/* css/styles.css */
-
 /* RESET & BASE STYLES */
 * {
   margin: 0;
@@ -196,11 +194,20 @@ body {
 }
 
 /* ============================
-   HERO SECTION
+   HERO SECTION (inchangée)
 ============================ */
 #hero {
   position: relative;
-  background: url("../images/hero-bg.webp") no-repeat center center/cover;
+  background: -webkit-image-set(
+      url("../images/hero-bg.webp") 1x,
+      url("../images/hero-bg.jpg") 1x
+    )
+    no-repeat center center/cover;
+  background: image-set(
+      url("../images/hero-bg.webp") 1x,
+      url("../images/hero-bg.jpg") 1x
+    )
+    no-repeat center center/cover;
   background-attachment: fixed;
   height: 100vh;
   display: flex;
@@ -722,32 +729,13 @@ footer {
 }
 
 /* ============================
-   ANIMATIONS FADE-IN & FADE-OUT (AOS)
+   ANIMATION SCROLL-DRIVEN
+   (Pour tous les éléments portant data-scroll-anim)
 ============================ */
-[data-aos] {
+[data-scroll-anim] {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
-}
-
-[data-aos].aos-animate {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-}
-
-.aos-animate-out {
-  animation: fadeOut 1.5s ease-out forwards;
+  will-change: opacity, transform;
 }
 
 /* ============================
